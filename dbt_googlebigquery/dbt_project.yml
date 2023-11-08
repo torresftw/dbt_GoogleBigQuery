@@ -32,6 +32,19 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   dbt_googlebigquery:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+    staging:
+      +materialized: table
+    intermediate:
+      +materialized: table
+    mart: 
+      +materialized: table
+    +persist_docs: ## Adds description in Big Query Table
+        relation: true
+        columns: true
+    +hours_to_expiration: 168 ## 7 days () 168 hours )
+
+tests:
+  dbt_googlebigquery:
+    +severity: warn
+    marts: 
+      +severity: error
